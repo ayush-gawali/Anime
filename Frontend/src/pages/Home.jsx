@@ -51,7 +51,6 @@ export default function Home() {
                   Cover Image
                 </div>
                 <h3 className="font-semibold truncate card-title">
-                  {console.log(anime)}
                   {anime?.title?.english || anime?.title?.romaji || anime?.title?.native}
                 </h3>
                 <div className="flex gap-2 flex-wrap">
