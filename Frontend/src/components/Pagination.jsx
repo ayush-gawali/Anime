@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
-import { context } from '../store/contest';
+import { context } from '../store/context';
 
 function Pagination() {
 

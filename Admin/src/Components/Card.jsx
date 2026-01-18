@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom'
 function Card({animeData}) {
 
   const navigate = useNavigate();
-  console.log(animeData);
-  
 
   const { id, aniplixId, title, averageScore, coverImage, episodes, format, seasonYear } = animeData;
 

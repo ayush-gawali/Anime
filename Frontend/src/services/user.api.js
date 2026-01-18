@@ -82,7 +82,7 @@ export const removeAnimeFromCollection = async (collectionId, animeId) => {
   try {
     const responce = await axios.delete(`${baseURL}/user/collections/remove-anime?animeId=${animeId}&collectionId=${collectionId}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`
+        Authorization: `Bearer ${token}`
       }
     });
     console.log(responce);
@@ -112,8 +112,8 @@ export const searchFilter = async (filters) => {
       }
     );
 
-    if(response.data.success){
-      return response.data ; 
+    if (response.data.success) {
+      return response.data;
     }
 
   } catch (error) {
@@ -122,3 +122,49 @@ export const searchFilter = async (filters) => {
 }
 
 
+export const getUserAnimeListByStatus = async (status) => {
+  try {
+    const responce = await axios.get(`${baseURL}/user/user-anime-list?status=${status}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    if (responce.data.success) {
+      return responce.data;
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const getUserAnimeListStatusCount = async (status) => {
+  try {
+    const responce = await axios.get(`${baseURL}/user/user-animeList-status-number`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (responce.data.success) {
+      return responce.data;
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const deleteColletion = async (collectionId) => {
+  try {
+    const response = await axios.delete(`${baseURL}/user/delect-collections/:collectionId`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    console.log(response);
+    
+  } catch (error) {
+    console.log(error);
+  }
+}

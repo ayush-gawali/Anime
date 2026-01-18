@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment, useContext } from 'react'
 import Card from '../components/Card';
 import { useNavigate } from 'react-router-dom';
-import { context } from '../store/contest';
+import { context } from '../store/context';
 import { FaRegEye } from "react-icons/fa";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa6";
@@ -9,15 +9,19 @@ import { FaRegFolder } from "react-icons/fa6";
 import { CiFilter } from "react-icons/ci";
 import { FaChevronDown } from "react-icons/fa";
 import { IoIosLogOut } from "react-icons/io";
+import { getUserAnimeListByStatus, getUserAnimeListStatusCount } from '../services/user.api';
 
 
 
 
 function Profile() {
 
-    const {userData,setUserData} = useContext(context);
+    const { userData, setUserData } = useContext(context);
 
     const navigate = useNavigate();
+    const [animes, setAnimes] = useState(null);
+    const [status, setStatus] = useState("watching");
+    const [statusCount,setStatusCount] = useState({});
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -25,11 +29,24 @@ function Profile() {
         navigate('/');
     }
 
+    const getAnimebyStatus = async (statusData) => {
+        const responce = await getUserAnimeListByStatus(statusData);
+        setStatus(statusData);
+        setAnimes(responce.data);
+    }
+
+    const getStatusCount = async () => {
+        const responce = await getUserAnimeListStatusCount();
+        setStatusCount(responce.data)
+    }
+
     useEffect(() => {
-        if(!userData){
+        if (!userData) {
             navigate('/');
         }
-    },[])
+        getAnimebyStatus("watching");
+        getStatusCount();
+    }, [userData]);
 
     return (
         <div>
@@ -58,40 +75,36 @@ function Profile() {
             </div>
 
             {/* Main */}
-
             <div className='mt-16 mb-20'>
-                
-
                 {/* Button list */}
-
                 <div className='flex justify-between px-30 mb-4 items-center'>
                     <div className='flex items-center gap-12'>
-                        <span className={`flex items-center gap-2 px-3 py-1.5 hover:cursor-pointer rounded-lg  `}>
+                        <span onClick={() => getAnimebyStatus("watching")} className={`flex  ${status === "watching" ? "border-2" : "border-transparent"} items-center gap-2 px-3 py-1.5 hover:cursor-pointer rounded-lg hover:bg-white/10  `}>
                             <FaRegEye />
                             <span className='flex gap-1'>
                                 Watching
-                                <p>12</p>
+                                <p>{statusCount?.watching}</p>
                             </span>
                         </span>
-                        <span className={`flex items-center gap-2 px-3 py-1.5 hover:cursor-pointer rounded-lg `}>
+                        <span onClick={() => getAnimebyStatus("watch_later")} className={`flex ${status === "watch_later" ? "border-2" : "border-transparent"} items-center gap-2 px-3 py-1.5 hover:cursor-pointer rounded-lg hover:bg-white/10 `}>
                             <FaRegBookmark />
                             <span className='flex gap-1'>
                                 To Watched
-                                <p>13</p>
+                                <p>{statusCount?.watch_later}</p>
                             </span>
                         </span>
-                        <span className={`flex items-center gap-2 px-3 py-1.5 hover:cursor-pointer rounded-lg `}>
+                        <span onClick={() => getAnimebyStatus("watched")} className={`flex ${status === "watched" ? "border-2" : "border-transparent"} items-center gap-2 px-3 py-1.5 hover:cursor-pointer rounded-lg hover:bg-white/10 `}>
                             <FaCheck />
                             <span className='flex gap-1'>
                                 Watched
-                                <p>2</p>
+                                <p>{statusCount?.watched}</p>
                             </span>
                         </span>
-                        <span className='flex items-center gap-2 px-3 py-1.5 hover:cursor-pointer rounded-lg hover:bg-white/10'>
+                        <span onClick={() => navigate('/collection')} className='flex items-center gap-2 px-3 py-1.5 hover:cursor-pointer rounded-lg hover:bg-white/10'>
                             <FaRegFolder />
                             <span className='flex gap-1'>
                                 Collection
-                                <p>3</p>
+                                <p>{statusCount?.collections}</p>
                             </span>
                         </span>
                     </div>
@@ -100,30 +113,23 @@ function Profile() {
                         <button className='flex items-center justify-center gap-2 bg-white text-black py-1 px-3 rounded'><CiFilter className='font-bold' />Filter</button>
                     </div>
                 </div>
-
-
                 {/* data grid display */}
                 <hr className='text-white/30 border-1' />
-
                 <div className='mt-16'>
                     {/* Product grid */}
                     <div className="grid grid-cols-6 gap-x-6 gap-y-10 grid-flow-row w-full px-10">
                         {/* Your content */}
-                        {/* {userData[select]?.length > 0 && userData[select]?.map(({ id, title, averageScore, coverImage, episodes, format, seasonYear }, index) => (
-                            <Fragment key={index}>
-                                <Card id={id} title={title} averageScore={averageScore} coverImage={coverImage} episodes={episodes} format={format} seasonYear={seasonYear} />
+                        {animes?.map((animeData) => (
+                            <Fragment key={animeData.anime._id}>
+                                <Card animeData={animeData.anime} />
                             </Fragment>
-
-                        ))} */}
+                        ))}
                     </div>
                 </div>
-
-                
-                {/* <div className='mt-14 text-center'>
-                    View More
+                {/* <div className='flex justify-center mt-5'>
+                    <button className='bg-gray-500 px-2 py-1.5 rounded-md'>View More</button>
                 </div> */}
             </div>
-
         </div>
     )
 }

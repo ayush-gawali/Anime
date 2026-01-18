@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { context } from "../store/contest";
+import { context } from "../store/context";
 import axios from "axios";
 
 export default function Home() {
@@ -39,7 +39,23 @@ export default function Home() {
           </div>
         </div>
       </section>
-
+      {/* Features */}
+      <section className="bg-zinc-950 border-t border-zinc-800">
+        <div className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-3 gap-10 text-center">
+          <div>
+            <h3 className="text-xl font-semibold">📺 Track Progress</h3>
+            <p className="text-zinc-400 mt-2">Manage watching, watched, and watch-later lists effortlessly.</p>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold">📂 Custom Collections</h3>
+            <p className="text-zinc-400 mt-2">Create personalized collections for every mood.</p>
+          </div>
+          <div>
+            <h3 className="text-xl font-semibold">⚡ Only Top Animes</h3>
+            <p className="text-zinc-400 mt-2">Each season brings many releases — Kurosaw shows only the best ones worth watching.</p>
+          </div>
+        </div>
+      </section>
       {/* Trending Section */}
       <section className="max-w-7xl mx-auto px-6 py-16">
         <h2 className="text-2xl font-bold mb-6">🔥 Trending Anime</h2>
@@ -61,24 +77,6 @@ export default function Home() {
               </div>
             </div>
           ))}
-        </div>
-      </section>
-
-      {/* Features */}
-      <section className="bg-zinc-950 border-t border-zinc-800">
-        <div className="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-3 gap-10 text-center">
-          <div>
-            <h3 className="text-xl font-semibold">📺 Track Progress</h3>
-            <p className="text-zinc-400 mt-2">Manage watching, watched, and watch-later lists effortlessly.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold">📂 Custom Collections</h3>
-            <p className="text-zinc-400 mt-2">Create personalized collections for every mood.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold">⚡ Fast & Secure</h3>
-            <p className="text-zinc-400 mt-2">JWT-secured backend with optimized APIs.</p>
-          </div>
         </div>
       </section>
     </div>

@@ -61,7 +61,7 @@ const YEARS = [2026, 2025, 2024, 2023, 2022, 2021, 2020];
    COMPONENT
 ======================= */
 
-function Filter({ applyFilter }) {
+function Filter({ applyFilter ,fetchAnimeListFromDB }) {
     const [filter, setFilter] = useState({
         year: null,
         season: null,
@@ -100,6 +100,7 @@ function Filter({ applyFilter }) {
             format: null,
             status: null,
         });
+        fetchAnimeListFromDB()
     };
 
     /* =======================

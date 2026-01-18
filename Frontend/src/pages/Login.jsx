@@ -4,7 +4,7 @@ import { FaEnvelope, FaLock, FaExclamationCircle, FaUser } from "react-icons/fa"
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { context } from '../store/contest';
+import { context } from '../store/context';
 
 
 function Login() {

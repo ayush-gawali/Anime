@@ -1,5 +1,5 @@
 import express from "express";
-import { addAnimeToCollection, addOrUpdateAnimeStatus, createCollection, deleteCollection, getCollections, getUserAnimeList, getUserAnimeListById, removeAnimeFromCollection, removeAnimeFromList } from "../Controllers/animeListController.js";
+import { addAnimeToCollection, addOrUpdateAnimeStatus, createCollection, deleteCollection, getCollections, getStatusCount, getUserAnimeList, getUserAnimeListById, removeAnimeFromCollection, removeAnimeFromList } from "../Controllers/animeListController.js";
 import authMiddleware from "../Middleware/authMiddleware.js";
 
 const userRoute = express.Router();
@@ -12,6 +12,7 @@ userRoute.get("/", (req, res) => {
 
 // Protected Routes
 userRoute.get("/user-anime-list", authMiddleware, getUserAnimeList);
+userRoute.get("/user-animeList-status-number", authMiddleware, getStatusCount);
 userRoute.get("/user-anime-list/status/:animeId", authMiddleware, getUserAnimeListById);
 userRoute.post("/user-anime-list/status", authMiddleware, addOrUpdateAnimeStatus);
 userRoute.delete("/user-anime-list/:animeId", authMiddleware, removeAnimeFromList);

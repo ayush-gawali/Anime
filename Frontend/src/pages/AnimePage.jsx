@@ -13,7 +13,7 @@ import Relations from '../components/SingleAnime/Relations';
 import Charater from '../components/SingleAnime/Charater';
 import Staff from '../components/SingleAnime/Staff';
 import Reviews from '../components/SingleAnime/Reviews';
-import { context } from '../store/contest';
+import { context } from '../store/context';
 import { MdDelete, MdClose } from "react-icons/md";
 import { setAnimeStatus } from '../services/user.api';
 import CollectionLayout from '../components/Collection/Layout';
@@ -105,7 +105,7 @@ function AnimePage() {
       {/* image and name  */}
       <div className='flex px-20 justify-center items-center relative bottom-20'>
         <img
-          className='w-100 h-100 rounded'
+          className='w-fit h-100 rounded ms-10'
           // src={anime?.coverImage?.extraLarge} 
           alt=""
         />

@@ -82,8 +82,6 @@ export default function Home() {
 
   const [searchAnime, setSearchAnime] = useState('');
 
-  const [pageNo, setPageNo] = useState(1);
-
   const [animeList, setAnimeList] = useState([]);
 
   const [query, setQuery] = useState('');
@@ -101,7 +99,7 @@ export default function Home() {
       $genres: [String]
       $format: MediaFormat
     ) {
-      Page(page: 1, perPage: 20) {
+      Page(page: 1, perPage: 24) {
         media(
           type: ANIME
           search: $search
@@ -161,7 +159,7 @@ export default function Home() {
     console.log(animeList);
   };
 
-  const fetchAnimeData = async () => {
+  const fetchAnimeData = async (pageNo) => {
     const query = `
         query {
           Page(page: ${pageNo}, perPage: 24) {
@@ -356,7 +354,7 @@ export default function Home() {
 
           {/* paging section */}
           <div className='flex justify-center'>
-            <Pagination />
+            <Pagination fetchAnimeData={fetchAnimeData} />
           </div>
 
         </main>

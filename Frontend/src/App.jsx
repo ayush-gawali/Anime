@@ -7,9 +7,10 @@ import Catalog from "./pages/Catalog";
 import AnimePage from './pages/AnimePage';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
-import ContextProvider from './store/contest';
+import ContextProvider from './store/context';
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Analytics } from '@vercel/analytics/react';
+import CollectionsPage from './pages/Collection';
 
 function App() {
   return (
@@ -28,20 +29,19 @@ function App() {
             {/* Protected routes */}
             <Route element={<ProtectedRoute />}>
               <Route path="/profile" element={<Profile />} />
-              <Route path="/collections" element={"<Collections />"} />
             </Route>
 
             {/* Fallback route */}
             <Route path="*" element={<h1 className='text-center mt-20'>404 Not Found</h1>} />
 
-            {/* <Route path="/admin" element={<Admin />} /> */}
+            <Route path="/collection" element={<CollectionsPage />} />
 
           </Routes>
           <Footer />
 
         </div>
       </ContextProvider>
-      <Analytics />
+      {import.meta.env.PROD && <Analytics />}
     </>
 
   )

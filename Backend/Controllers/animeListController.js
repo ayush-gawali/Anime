@@ -3,7 +3,7 @@ import userModel from "../Models/userModel.js";
 
 export const getUserAnimeList = async (req, res) => {
     try {
-        const userId = req.user.userId;
+        const userId = req.user.id;
         const { status } = req.query;
 
         const user = await userModel.findById(userId);
@@ -29,6 +29,39 @@ export const getUserAnimeList = async (req, res) => {
         res.status(500).json({ success: false, message: "Server error" });
     }
 };
+
+export const getStatusCount = async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const user = await userModel.findById(userId);
+        if (!user || !user.listId) {
+            return res.status(404).json({ message: "Anime list not found" });
+        }
+
+        const animeList = await userAnimeListModel.findById(user.listId)
+            .populate("animes.anime", "title coverImage rating");
+
+
+        const counts = animeList.animes.reduce(
+            (acc, item) => {
+                acc[item.status] = (acc[item.status] || 0) + 1;
+                return acc;
+            },
+            { watching: 0, watched: 0, watch_later: 0 }
+        );
+
+        counts.collections = animeList.collections.length;
+
+        res.status(200).json({
+            success: true,
+            data: counts
+        });
+
+    } catch (err) {
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+}
 
 export const getUserAnimeListById = async (req, res) => {
     try {
@@ -233,33 +266,42 @@ export const deleteCollection = async (req, res) => {
     try {
         const { collectionId } = req.params;
 
+        if (!collectionId) {
+            return res.status(400).json({ success: false, message: "Collection ID required" });
+        }
+
         const user = await userModel.findById(req.user.id);
+        if (!user || !user.listId) {
+            return res.status(404).json({ success: false, message: "User list not found" });
+        }
+
         const animeList = await userAnimeListModel.findById(user.listId);
+        if (!animeList) {
+            return res.status(404).json({ success: false, message: "Anime list not found" });
+        }
 
         animeList.collections = animeList.collections.filter(
             c => c._id.toString() !== collectionId
         );
 
-        console.log("collection: " + animeList.collections);
-
-        // await animeList.save();
+        await animeList.save();
 
         res.status(200).json({
             success: true,
-            message: "Collection deleted"
+            message: `Collection deleted`,
+            data: animeList.collections
         });
 
     } catch (err) {
         res.status(500).json({ success: false, message: "Server error" });
         console.log(err);
-
     }
 };
 
 export const removeAnimeFromCollection = async (req, res) => {
     try {
         const { collectionId, animeId } = req.query;
-        
+
         const userId = req.user.id;
         if (!animeId || !collectionId) {
             return res.status(400).json({ message: "animeId and collectionId are required" });

@@ -176,7 +176,7 @@ export default function Catalog() {
             <div className="grid grid-cols-1 gap-x-10 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
               <div>
-                <Filter applyFilter={applyFilter} />
+                <Filter applyFilter={applyFilter} fetchAnimeListFromDB={fetchAnimeListFromDB} />
               </div>
               {/* Product grid */}
               <div className={`grid grid-cols-4 gap-x-6 gap-y-10 grid-flow-row w-4xl`}>

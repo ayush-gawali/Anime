@@ -1,52 +1,91 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { FaCaretDown } from "react-icons/fa";
-import { context } from '../store/contest';
+import { context } from '../store/context';
 
 function Navbar() {
 
-    const {userData} = useContext(context);   
+    const { userData } = useContext(context);
 
-    const navigate = useNavigate();
+    const closeDropdown = () => {
+        document.activeElement?.blur();
+    };
+
 
     return (
-        <div className='bg-black/60 w-full border-b-2 border-white/40 text-white flex items-center px-20 gap-10 justify-between py-4'>
-            {/* logo */}
-            <div>
-                <h1 className='text-3xl font-bold hover:cursor-pointer' onClick={() => navigate('/')} >Kurosaw</h1>
+        <div className="navbar bg-base-400 shadow-sm px-10">
+            <div className="navbar-start">
+                <div className="dropdown">
+                    <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /> </svg>
+                    </div>
+                    <ul
+                        tabIndex="-1"
+                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                        <li><Link to={"/"} >Home</Link></li>
+                        <li><Link to={"/catalog"} >Catalog</Link></li>
+                        <li><Link to={"/about"} >About</Link></li>
+                        <li><Link to={"/profile"} >Profile</Link></li>
+                    </ul>
+                </div>
+                <Link to={'/'} className="btn btn-ghost text-2xl font-bold">Kurosaw</Link>
             </div>
-
-            {/* Nav items */}
-            <nav>
-                <ul className='flex gap-10'>
-                    <li><Link to='/' >Home</Link> </li>
-                    <li><Link to='/catalog' >Catalog</Link> </li>
-                    <li><Link to='/profile' >Profile</Link> </li>
-                    <li><Link to='/collection' >Collection</Link> </li>
+            <div className="navbar-center hidden lg:flex">
+                <ul className="menu menu-horizontal px-1 gap-1">
+                    <li><Link to={"/"} >Home</Link></li>
+                    <li><Link to={"/catalog"} >Catalog</Link></li>
+                    <li><Link to={"/about"} >About</Link></li>
+                    <li><Link to={"/profile"} >Profile</Link></li>
                 </ul>
-            </nav>
-
-            {/* login and get started */}
-            <div>
-                {userData
-                    ?
-                    <div>
-                        <div className='flex gap-8 items-center'>
-                            <span className='font-medium flex items-center gap-2 hover:cursor-pointer'>
-                                My Library
-                                <FaCaretDown />
-                            </span>
-                            <img
-                                onClick={() => navigate('/profile')}
-                                className='w-9 aspect-square rounded-full hover:cursor-pointer'
-                                src="https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yc0l6amFaOUtLNFozdzg0Z0M0dTE5OW03dk8ifQ" alt=""
-                            />
+            </div>
+            <div className="navbar-end">
+                {userData ?
+                    <div className="flex gap-4">
+                        <div className="dropdown dropdown-end">
+                            <div
+                                tabIndex={0}
+                                role="button"
+                                className="btn btn-ghost"
+                            >
+                                <div className="flex items-center justify-center gap-1">
+                                    My Libaray  <FaCaretDown />
+                                </div>
+                            </div>
+                            {/* <ul
+                                tabIndex="-1"
+                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+                            >
+                                <li><a>Profile</a> </li>
+                                <li><a>Settings</a></li>
+                                <li><a>Logout</a></li>
+                            </ul> */}
+                        </div>
+                        <div className="dropdown dropdown-end">
+                            <div
+                                tabIndex={0}
+                                role="button"
+                                className="btn btn-ghost btn-circle avatar"
+                            >
+                                <div className="w-10 rounded-full">
+                                    <img
+                                        alt="Tailwind CSS Navbar component"
+                                        src="https://img.clerk.com/eyJ0eXBlIjoicHJveHkiLCJzcmMiOiJodHRwczovL2ltYWdlcy5jbGVyay5kZXYvb2F1dGhfZ29vZ2xlL2ltZ18yc0l6amFaOUtLNFozdzg0Z0M0dTE5OW03dk8ifQ" />
+                                </div>
+                            </div>
+                            <ul
+                                tabIndex="-1"
+                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-48 p-2 shadow"
+                            >
+                                <li><Link to={"/profile"} onClick={closeDropdown}>Profile</Link> </li>
+                                <li><Link to={"/settings"} onClick={closeDropdown}>Settings</Link></li>
+                                {/* <li><a onClick={closeDropdown}>Logout</a></li> */}
+                            </ul>
                         </div>
                     </div>
                     :
-                    <div className='flex gap-6 items-center'>
-                        <button onClick={() => navigate('/login')} className='border-white border-2 py-1 px-3 rounded hover:cursor-pointer'>Login</button>
-                        <button className='py-1 px-3 rounded bg-white text-black hover:cursor-pointer'>Get Started</button>
+                    <div className='flex gap-3'>
+                        <Link to={'/login'} className='btn btn-soft rounded-lg'>Login</Link>
+                        <button className='btn rounded-lg bg-white text-black hover:bg-white/95'>Get Started</button>
                     </div>
                 }
             </div>
