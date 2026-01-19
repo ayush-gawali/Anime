@@ -6,6 +6,7 @@ import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import Login from './Pages/Login';
 import DbList from './Pages/DbList';
+import Approval from './Pages/Approval ';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/db-list" element={<DbList />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/approval" element={<Approval />} />
         <Route path="/anime/:id" element={<AnimePage />} />
       </Routes>
       <Footer />

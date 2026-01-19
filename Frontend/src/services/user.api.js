@@ -14,6 +14,17 @@ export const getAllAnimes = async () => {
   }
 };
 
+export const getAnimes = async (filters = {}) => {
+  try {
+    const reponse = await axios.get(`${baseURL}/anime/get_animes`, {
+      params: filters
+    });
+    return reponse;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const setAnimeStatus = async (animeId, status) => {
   try {
     const reponse = await axios.post(`${baseURL}/user/user-anime-list/status`, {
@@ -163,7 +174,7 @@ export const deleteColletion = async (collectionId) => {
       }
     });
     console.log(response);
-    
+
   } catch (error) {
     console.log(error);
   }

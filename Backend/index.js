@@ -7,6 +7,8 @@ import connectDB from "./DB/db.js";
 import userRoute from "./Routes/userRoute.js";
 import animeRoute from "./Routes/animeRoute.js";
 import authRoute from "./Routes/authRoute.js";
+import { startAnimeUpdateCron } from "./cron/animeUpdate.cron.js";
+
 
 
 dotenv.config();
@@ -23,6 +25,8 @@ app.use(cors());
 
 connectDB();
 
+// startAnimeUpdateCron();
+
 
 app.get("/", (req, res) => (
     res.send("<h1>Api Working</h1>")
@@ -31,6 +35,7 @@ app.get("/", (req, res) => (
 app.use("/auth", authRoute);
 app.use("/anime", animeRoute);
 app.use("/user", userRoute);
+
 
 
 // Start Server

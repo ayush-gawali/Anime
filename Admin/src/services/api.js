@@ -69,3 +69,63 @@ export const updateAnime = async (id, data) => {
     console.log(error);
   }
 }
+
+
+
+export const getApproveAnimeList = async () => {
+  try {
+    const response = await axios.get(`${baseURL}/anime/get-approve-anime`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    if (response.data.success) {
+      return response.data;
+    }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const rejectApprovalAnime = async (requestId) => {
+  try {
+    const response = await axios.post(`${baseURL}/anime/reject-anime-approval/${requestId}`, {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    console.log(response);
+
+    // if (response.data.success) {
+    //   return response.data;
+    // }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export const approveApprovalAnime = async (requestId) => {
+  try {
+    const response = await axios.post(`${baseURL}/anime/approve-anime-approval/${requestId}`, {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    console.log(response);
+
+    // if (response.data.success) {
+    //   return response.data;
+    // }
+
+  } catch (error) {
+    console.log(error);
+  }
+}
